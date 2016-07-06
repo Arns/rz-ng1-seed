@@ -1,0 +1,26 @@
+# Eclipse
+.classpath
+.project
+.settings/
+.buildpath
+
+# IntelliJ
+*.iml
+*.ipr
+.idea
+
+# Mac
+.DS_Store
+
+# Node
+node_modules
+
+# Dist
+dist
+dist/*
+
+# SASS related
+.sass-cache
+
+# VIM
+*.swp
