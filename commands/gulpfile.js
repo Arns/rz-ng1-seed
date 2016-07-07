@@ -41,6 +41,8 @@ var scriptSource = [
       '!../web/**/*test.js'
     ];
 
+var imagesSource = '../web/assets/images/*';
+
 /* Clean Dist */
 /* Useful for cleaning up files that may have been removed and would cause conflicts */
 gulp.task('clean', function () {
@@ -57,6 +59,14 @@ gulp.task('clean-scripts', function () {
         .pipe(clean({force: true}));
 });
 
+
+gulp.task('copy', ['copy-images']);
+// copy images from src to dist
+gulp.task('copy-images', function() {
+  return gulp.src(imagesSource)
+        .pipe(gulp.dest(output + '/images'));
+});
+
 // -----------------------------------------------------------------------------
 // JS concat & minify
 // -----------------------------------------------------------------------------
@@ -68,7 +78,7 @@ gulp.task('scripts', function() {
           .pipe(rename('master.min.js'))
           .pipe(uglify())
           .pipe(sourcemaps.write('.'))
-          .pipe(gulp.dest(output));
+          .pipe(gulp.dest(output + '/js'));
   });
 });
 
@@ -84,7 +94,7 @@ gulp.task('sass', function () {
       .pipe(autoprefixer(autoprefixerOptions))
       .pipe(rename('master.min.css'))
       .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest(output));
+      .pipe(gulp.dest(output + '/css'));
   });
 });
 
@@ -134,15 +144,15 @@ gulp.task('test-watch', function(done) {
 /* $ /path/to/gulpfile/gulp */
 /* used for local dev */
 gulp.task('default', function(callback) {
-  runSequence('clean', ['sass', 'scripts', 'watch'], callback);    
+  runSequence('clean', ['sass', 'scripts', 'copy', 'watch'], callback);    
 });
 
 /* $ /path/to/gulpfile/gulp build */
 /* used for one time builds (environments other than local dev) */
 gulp.task('build', function(callback) {
-  runSequence('clean', ['sass', 'scripts'], callback);    
+  runSequence('clean', ['sass', 'scripts', 'copy'], callback);    
 });
 
 gulp.task('build-test', function(callback) {
-  runSequence('clean', ['sass', 'scripts'], 'test', callback); 
+  runSequence('clean', ['sass', 'scripts', 'copy'], 'test', callback); 
 });

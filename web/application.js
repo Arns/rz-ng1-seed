@@ -6,10 +6,11 @@ var application = angular.module('application', ['ngRoute','ngResource','ngSanit
 
 }]);
 
-application.config(['$routeProvider', function($routeProvider) {
+
+application.config(['$routeProvider', 'TEMPLATES', function($routeProvider, TEMPLATES) {
     $routeProvider
         .when('/example', { 
-            templateUrl: 'assets/templates/example.html',
+            templateUrl: TEMPLATES + 'example.html',
             title: 'Example',
             controller: 'ExampleController',
             controllerAs: 'ExampleCtrl'
@@ -18,3 +19,5 @@ application.config(['$routeProvider', function($routeProvider) {
             redirectTo: '/',
         });
 }]);
+
+application.constant('TEMPLATES', '/web/templates/');

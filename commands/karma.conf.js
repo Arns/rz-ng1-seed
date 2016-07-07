@@ -24,21 +24,11 @@ module.exports = function(config) {
 
         'node_modules/angular-mocks/angular-mocks.js',
 
-        '../web/application.js',
-        '../../base-member-web/js/**/*.js',
-        '../web/lib/cropper/cropper.min.js',
-        '../web/lib/JavascriptLoadImage/load-image.all.min.js',
-        '../web/master.js',
-        '../web/home.js',
-        //'../web/services/!*test.js',
-        '../web/services/*.js',
-        //'../web/factories/!*test.js',
-        '../web/factories/*.js',
-        //'../web/components/**/!*test.js',
-        '../web/components/**/*.js',
-        '../web/directives/*.js',
-
-        //'../web/tests/*.js'
+        '../web/src/application.js',
+        //'../../base-member-web/js/**/*.js',
+        '../web/src/services/**/*.js',
+        '../web/src/components/**/*.js',
+        '../web/src/directives/**/*.js',
     ],
 
 
