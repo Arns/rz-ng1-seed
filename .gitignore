@@ -16,7 +16,7 @@
 commands/node_modules
 
 # Dist
-commands/dist
+dist
 
 # SASS related
 .sass-cache
