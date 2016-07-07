@@ -3,6 +3,7 @@ These steps are to get you setup for developing the Front-End assets for the sit
 
 **Prerequisites:**
 - [NodeJS](https://nodejs.org) Installed
+- Karma CLI - `npm install -g karma-cli`
 
 **Steps:**
 

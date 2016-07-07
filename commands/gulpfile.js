@@ -22,33 +22,32 @@ var gulp = require('gulp'),
 // Configuration
 // -----------------------------------------------------------------------------
 
-var output = '../dist',
-    input = '../web/assets/scss/**/*.scss',
+// Dist location
+var output = '../dist';
+
+// Style paths & config
+var styleSource = '../web/assets/scss/**/*.scss',
     autoprefixerOptions = { browsers: ['last 2 versions', '> 5%', 'ie >= 9', 'Firefox ESR'] };
 
-
-
-// JS paths
-var jsSource = [
+// Script paths & config
+var scriptSource = [
       '../web/application.js', 
-      '../../base-member-web/js/**/*.js', 
-      '../web/master.js', 
-      '../web/home.js', 
-      '../web/services/*.js', 
-      '../web/factories/*.js', 
+      '../web/services/**/*.js', 
+      '../web/factories/**/*.js', 
       '../web/components/**/*.js', 
-      '../web/directives/*.js',
+      '../web/directives/**/*.js',
 
       // exclude all tests
       '!../web/**/*test.js'
-    ],
-    jsDist = '../dist';
+    ];
 
-/* clean dist */
+/* Clean Dist */
+/* Useful for cleaning up files that may have been removed and would cause conflicts */
 gulp.task('clean', function () {
     return gulp.src(output, {read: false})
         .pipe(clean({force: true}));
 });
+
 gulp.task('clean-css', function () {
     return gulp.src(output + '/*.css*', {read: false})
         .pipe(clean({force: true}));
@@ -63,13 +62,13 @@ gulp.task('clean-scripts', function () {
 // -----------------------------------------------------------------------------
 gulp.task('scripts', function() {
   runSequence('clean-scripts', function() {
-    return gulp.src(jsSource)
+    return gulp.src(scriptSource)
           .pipe(sourcemaps.init())
           .pipe(concat('master.js'))
           .pipe(rename('master.min.js'))
           .pipe(uglify())
           .pipe(sourcemaps.write('.'))
-          .pipe(gulp.dest(jsDist));
+          .pipe(gulp.dest(output));
   });
 });
 
@@ -79,54 +78,26 @@ gulp.task('scripts', function() {
 gulp.task('sass', function () {
   runSequence('clean-css', function() {
     return gulp
-      .src(input)
+      .src(styleSource)
       .pipe(sourcemaps.init())
       .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
       .pipe(autoprefixer(autoprefixerOptions))
+      .pipe(rename('master.min.css'))
       .pipe(sourcemaps.write('.'))
       .pipe(gulp.dest(output));
   });
 });
-
-
-// -----------------------------------------------------------------------------
-// SVG Sprites
-// -----------------------------------------------------------------------------
-
-gulp.task('sprites', function () {
-  return gulp.src('/web/assets/images/icons/*.svg')
-  .pipe(svgSprite({
-    mode: {
-      symbol: {
-        inline: true,
-        dest: "images",
-        sprite: "icons",
-        prefix: ".icon-%s",
-        example: {
-          template: "../web/assets/images/icons-section-template.html",
-          dest: "icons-section.html"
-        }
-      }
-    }
-  }))
-  .pipe(gulp.dest("../"));
-});
-
 
 // -----------------------------------------------------------------------------
 // Watchers
 // -----------------------------------------------------------------------------
 
 gulp.task('watch', function() {
-  gulp.watch(input, ['sass'])
+  gulp.watch(styleSource, ['sass'])
     .on('change', function(event) {
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
     });
-  gulp.watch('/web/assets/images/icons/*.svg', ['sprites'])
-    .on('change', function(event) {
-      console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
-    });
-  gulp.watch(jsSource, ['scripts'])
+  gulp.watch(scriptSource, ['scripts'])
     .on('change', function(event) {
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
     });
@@ -160,20 +131,18 @@ gulp.task('test-watch', function(done) {
 // Default task
 // -----------------------------------------------------------------------------
 
-//gulp.task('build', ['sass', 'sprites', 'scripts']);
-
 /* $ /path/to/gulpfile/gulp */
 /* used for local dev */
 gulp.task('default', function(callback) {
-  runSequence('clean', ['sass', 'sprites', 'scripts', 'watch'], callback);    
+  runSequence('clean', ['sass', 'scripts', 'watch'], callback);    
 });
 
 /* $ /path/to/gulpfile/gulp build */
 /* used for one time builds (environments other than local dev) */
 gulp.task('build', function(callback) {
-  runSequence('clean', ['sass', 'sprites', 'scripts'], callback);    
+  runSequence('clean', ['sass', 'scripts'], callback);    
 });
 
 gulp.task('build-test', function(callback) {
-  runSequence('clean', ['sass', 'sprites', 'scripts'], 'test', callback); 
+  runSequence('clean', ['sass', 'scripts'], 'test', callback); 
 });

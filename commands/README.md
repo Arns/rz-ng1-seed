@@ -1,3 +1,13 @@
-needs symlink to base-member-web at the same level as usbank-member-web
-Windows Example (run powershell as admin): cmd /c mklink C:\Users\your.user\code\usbank\base-member-web C:\Users\your.user\code\base-member-web
-OSX Example (from terminal): sudo ln -s /Users/your.username/code/base-member-web /Users/your.username/code/usbank/base-member-web
+#SUMMARY
+
+The `commands` directory contains any files/folders that relate to commands that may be entered or managed via the terminal. It should contain anything related to admin tasks for this project. It might contain I18n utility commands, Gulp, NPM, or any arbitrary command.
+
+#STANDARD
+
+See RAZR documentation for the standard structure for any particular file. Like the gulpfile.js, for instance.
+
+#USEFUL COMMANDS
+
+See RAZR documentation (Confluence?) for full details - search 'npm' or 'gulp'
+
+*`npm start`* - kicks up a local server; visit localhost:3000 to view your app

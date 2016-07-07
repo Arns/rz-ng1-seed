@@ -13,11 +13,10 @@
 .DS_Store
 
 # Node
-node_modules
+commands/node_modules
 
 # Dist
-dist
-dist/*
+commands/dist
 
 # SASS related
 .sass-cache
