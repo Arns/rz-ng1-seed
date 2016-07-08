@@ -14,18 +14,19 @@ describe('ExampleControllerTest', function() {
 
 	beforeEach(inject(function(_$rootScope_, _$q_, _$httpBackend_, _$controller_) {
 
-		$q = _$q_;
+		$q = _$q_; // promises
 		deferred = _$q_.defer();
-		$scope = _$rootScope_.$new();
-		$httpBackend = _$httpBackend_;
-		$controller = _$controller_;
-		$rootScope = _$rootScope_.$new();
+		$scope = _$rootScope_.$new(); // scope spoof
+		$httpBackend = _$httpBackend_; // for spoofing http requests
+		$controller = _$controller_; // for instantiating controllers
+		$rootScope = _$rootScope_.$new(); // rootScope spoof
 
-		/*
+		/* used for spoofing any http requests
 		$httpBackend.when('GET', 'http://192.168.99.100/groupReadylift/catalog-modals/please-wait.php').respond({});
 		spyOn(ToolsService, 'resetForm').and.returnValue(deferred.promise);
 		*/
 
+		// initialize a controller
 		vm = $controller('ExampleController', { $scope: $scope, $rootScope: $rootScope });
 	}));
 
@@ -35,7 +36,7 @@ describe('ExampleControllerTest', function() {
 		deferred.resolve(true);
 		$scope.$apply();
 		*/
-		expect(true).toEqual(true);
+		expect(vm.message).toEqual('Hi from the Example Controller! :)');
 	});
 
 });

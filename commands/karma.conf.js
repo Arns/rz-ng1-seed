@@ -24,11 +24,11 @@ module.exports = function(config) {
 
         'node_modules/angular-mocks/angular-mocks.js',
 
-        '../web/src/application.js',
+        '../web/application.js',
         //'../../base-member-web/js/**/*.js',
-        '../web/src/services/**/*.js',
-        '../web/src/components/**/*.js',
-        '../web/src/directives/**/*.js',
+        '../web/services/**/*.js',
+        '../web/components/**/*.js',
+        '../web/directives/**/*.js',
     ],
 
 
