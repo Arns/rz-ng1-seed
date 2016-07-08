@@ -10,4 +10,4 @@ See RAZR documentation for the standard structure for any particular file. Like 
 
 See RAZR documentation (Confluence?) for full details - search 'npm' or 'gulp'
 
-*`npm start`* - kicks up a local server; visit localhost:3000 to view your app
+*`npm start`* - kicks up a local dev server; visit localhost:3000 to view your app

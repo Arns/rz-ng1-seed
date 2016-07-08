@@ -10,13 +10,21 @@
 	<link href="dist/css/master.min.css" media="all" rel="stylesheet" type="text/css"/>
 	<!-- Font Awesome for all of our icon needs :) -->
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<!-- PureCSS - oure defacto responsive css library and reset -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" rel="stylesheet" type="text/css" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css" rel="stylesheet" type="text/css" />
+
 
 	<!-- JQuery CDN References -->
 	<script src="//code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
 	<!-- Angular and associated library CDN References -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.min.js"></script>
+
+	<!-- using ui router instead -->
+	<!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.min.js"></script>-->
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
+
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-animate.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-resource.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.min.js"></script>
@@ -29,17 +37,20 @@
 <body>
 
 	<header>
+		<p><em>Header</em></p>
 		<h1><span class="fa fa-bolt"></span></h1>
 	</header>
 
 	<main>
+		<p><em>Main Content</em></p>
 		<h1><span class="fa fa-star"></span>Welcome</h1>
 
-    	<div data-ng-view></div>
+    	<div ui-view></div>
 
 	</main>
 
 	<footer>
+		<p><em>Footer</em></p>
 		<p>Thanks for visiting! :)</p>
 	</footer>
 

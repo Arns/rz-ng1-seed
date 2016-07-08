@@ -27,16 +27,16 @@ describe('ExampleControllerTest', function() {
 		*/
 
 		// initialize a controller
-		vm = $controller('ExampleController', { $scope: $scope, $rootScope: $rootScope });
+		ctrl = $controller('ExampleController', { $scope: $scope, $rootScope: $rootScope });
 	}));
 
-	it ('should have true equal to true', function() {
+	it ('should have message set', function() {
 		/*
 		$scope.reset();
 		deferred.resolve(true);
 		$scope.$apply();
 		*/
-		expect(vm.message).toEqual('Hi from the Example Controller! :)');
+		expect(ctrl.message).toEqual('Hi from the Example Controller! :)');
 	});
 
 });
