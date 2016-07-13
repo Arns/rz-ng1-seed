@@ -10,4 +10,10 @@ See RAZR documentation for the standard structure for any particular file. Like 
 
 See RAZR documentation (Confluence?) for full details - search 'npm' or 'gulp'
 
-*`npm start`* - kicks up a local dev server; visit localhost:3000 to view your app
+`npm start` - kicks up a local dev server; visit localhost:3000 to view your app
+
+`gulp` - Runs a build (JS, CSS, etc.) and continues to watch for source code changes, building and running the test suite when detected
+
+`gulp build` - Runs a one time build (JS, CSS, etc.)
+
+`gulp build-test` - Runs gulp build + a single run of the test suite
