@@ -1,7 +1,7 @@
 {
   "name": "rz-ng1-seed",
   "version": "1.0.0",
-  "description": "",
+  "description": "Seed Project",
   "main": "index.php",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -30,6 +30,7 @@
     "angular-route": "^1.5.6",
     "angular-sanitize": "^1.5.6",
     "gulp": "^3.9.0",
+    "gulp-ngdocs": "^0.3.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.0",

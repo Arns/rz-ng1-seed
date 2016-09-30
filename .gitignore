@@ -23,3 +23,6 @@ dist
 
 # VIM
 *.swp
+
+# ng-docs
+commands/docs

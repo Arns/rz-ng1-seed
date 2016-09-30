@@ -6,6 +6,7 @@
 // -----------------------------------------------------------------------------
 
 var gulp = require('gulp'),
+    gulpDocs = require('gulp-ngdocs'),
     sass = require('gulp-sass'),
     svgSprite = require('gulp-svg-sprite'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -15,7 +16,8 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     runSequence = require('run-sequence'),
     uglify = require('gulp-uglify'),
-    Server = require('karma').Server;
+    Server = require('karma').Server,
+    pjson = require('./package.json');
 
 
 // -----------------------------------------------------------------------------
@@ -31,10 +33,10 @@ var styleSource = '../web/assets/scss/**/*.scss',
 
 // Script paths & config
 var scriptSource = [
-      '../web/application.js', 
-      '../web/services/**/*.js', 
-      '../web/factories/**/*.js', 
-      '../web/components/**/*.js', 
+      '../web/application.js',
+      '../web/services/**/*.js',
+      '../web/factories/**/*.js',
+      '../web/components/**/*.js',
       '../web/directives/**/*.js',
 
       // exclude all tests
@@ -137,6 +139,58 @@ gulp.task('test-watch', function(done) {
     }, done).start();
 });
 
+/**
+ * This is a collection of files to
+ * be added to the ng-docs task.
+ * these should only be angular-related files
+ * that hve been updated with the ngdoc style comments.
+ */
+var ngDocSource = [
+    '../web/components/**/*.js',
+    '../web/directives/**/*.js',
+    '../web/services/**/*.js'
+];
+
+/**
+ * Including supporting scripts here like
+ * jQuery
+ * third party js
+ * etc
+ */
+var dependentScripts = [
+    '../web/application.js',
+    '../web/components/example/ExampleController.js',
+    '../web/components/home/HomeController.js',
+    '../web/directives/example-directive.js',
+];
+
+/**
+ * ng-docs
+ * This task reads ng-doc formatted comments
+ * and automatically generates the appropriate
+ * pages and content for the included angular js files.
+ *
+ * Documentation Guide
+ * https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation
+ * https://github.com/idanush/ngdocs/wiki/API-Docs-Syntax
+ * http://www.podpea.co.uk/blog/starting-off-with-ngdocs/
+ */
+gulp.task('ngdocs', [], function () {
+  var options = {
+    scripts: dependentScripts,
+    html5Mode: false,
+    startPage: '/api',
+    title: pjson.description//,
+    // TODO: Brand and style this for a better experience
+    // image: "http://1h3ci31pyjih49uge04f79s6.wpengine.netdna-cdn.com/wp-content/themes/razrhq/assets/i/logo-razrhq.svg",
+    // imageLink: "http://razrhq.com/",
+    // titleLink: "http://razrhq.com/"
+  }
+  return gulp.src(ngDocSource)
+    .pipe(gulpDocs.process(options))
+    .pipe(gulp.dest('./docs'));
+});
+
 // -----------------------------------------------------------------------------
 // Default task
 // -----------------------------------------------------------------------------
@@ -144,15 +198,15 @@ gulp.task('test-watch', function(done) {
 /* $ /path/to/gulpfile/gulp */
 /* used for local dev */
 gulp.task('default', function(callback) {
-  runSequence('clean', ['sass', 'scripts', 'copy', 'watch'], callback);    
+  runSequence('clean', ['sass', 'scripts', 'copy', 'watch', 'ngdocs'], callback);
 });
 
 /* $ /path/to/gulpfile/gulp build */
 /* used for one time builds (environments other than local dev) */
 gulp.task('build', function(callback) {
-  runSequence('clean', ['sass', 'scripts', 'copy'], callback);    
+  runSequence('clean', ['sass', 'scripts', 'copy'], callback);
 });
 
 gulp.task('build-test', function(callback) {
-  runSequence('clean', ['sass', 'scripts', 'copy'], 'test', callback); 
+  runSequence('clean', ['sass', 'scripts', 'copy'], 'test', callback);
 });

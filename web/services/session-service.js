@@ -1,34 +1,47 @@
 /**
- * 
+ * @ngdoc service
+ * @name application.service:SessionService
+ * @description
+ * Session Management service
+
+ * @requires '$rootScope',
+ * @requires '$location
+ * @requires '$http
+ * @requires '$q
+ * @requires '$timeout
+ * @requires '$window
+ * @requires 'ToolsService
+ * @requires 'ModalService
+ *
  */
-application.service('SessionService', 
-	['$rootScope', '$location', '$http', '$q', '$timeout', '$window', 'ToolsService', 'ModalService', 
+application.service('SessionService',
+	['$rootScope', '$location', '$http', '$q', '$timeout', '$window', 'ToolsService', 'ModalService',
 	function($rootScope, $location, $http, $q, $timeout, $window, ToolsService, ModalService) {
-	
+
 	var self = this;
     var timer;
-	    
+
     self.isLoggedIn = false;
 	self.loginException = {};
-	
+
 	self.loginData = {};
 	self.clearLoginData = function(){
 		self.loginData = {};
 	}
-	
+
 	self.sessionData = {};
 	self.clearSessionData = function(){
 		self.sessionData = {};
 	}
-	
+
 	self.loginException = {};
 	self.clearLoginException = function(){
 		self.loginException = {};
 	}
-	
+
     $rootScope.user = typeof(USER) !== 'undefined'? JSON.parse(USER) : undefined;
 	$rootScope.logout = typeof(LOGOUT) !== 'undefined'? JSON.parse(LOGOUT) : undefined;
-	
+
 	self.login = function(){
 		var deferred = $q.defer();
 		self.clearLoginException();
@@ -41,7 +54,7 @@ application.service('SessionService',
 	    			self.isLoggedIn = true;
 
 	    			$rootScope.user = data;
-	    			
+
 	    			deferred.resolve();
 	    		} else {
 	    			self.loginException = data.exception;
@@ -58,7 +71,7 @@ application.service('SessionService',
 		}
 		return deferred.promise;
     }
-	
+
 	self.getFBUrl = function(){
 		var deferred = $q.defer();
 		if(!self.isLoggedIn){
@@ -78,18 +91,18 @@ application.service('SessionService',
 		}
         return deferred.promise;
     }
-	
+
 	self.logout = function(){
 		var deferred = $q.defer();
 		if(self.isLoggedIn){
-	    	$http.post(SERVICES + "logout.php").success(function(data){	    
+	    	$http.post(SERVICES + "logout.php").success(function(data){
 
 	    		if(typeof(data.exception) === "undefined"){
 		    		self.clearSessionData();
 					$timeout.cancel(timer);
 					$window.location.reload();
 	    		} else {
-	    			switch(data.exception.code) { 
+	    			switch(data.exception.code) {
 	                default:
 	                    $rootScope.errorMessage = "We are sorry! Unexpected Service Error.";
 	                    break;
@@ -104,7 +117,7 @@ application.service('SessionService',
 		}
         return deferred.promise;
 	}
-	
+
     self.updateTimeout = function() {
         $timeout.cancel(timer);
         var timestamp = { "delta" : Date.now() - self.lastActivity };
@@ -129,7 +142,7 @@ application.service('SessionService',
       self.lastActivity = Date.now();
     });
 
-	
+
   if ($rootScope.user) {
     self.isLoggedIn = true;
     self.sessionData = $rootScope.user;
@@ -141,14 +154,14 @@ application.service('SessionService',
 
     // If the user is logged in, listen for user activity.
     self.updateTimeout();
-    
+
   } else if($rootScope.logout){
     // console.log("Show " + $rootScope.logout.expireMethod + " modal")
     if ($rootScope.logout.expireMethod === "SOFT_TIMEOUT") {
       ModalService.openModal("web/components/modals/logged-out.php");
     }
   };
-	
+
     self.loginMethods = {
     	"ADMINISTRATIVE": "ADMINISTRATIVE",
     	"FACEBOOK": "FACEBOOK",
@@ -156,5 +169,5 @@ application.service('SessionService',
     	"MEMBER_EMULATION": "MEMBER_EMULATION",
     	"PROMO_EMAIL": "PROMO_EMAIL"
     }
-    
+
 }]);
