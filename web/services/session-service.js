@@ -4,14 +4,14 @@
  * @description
  * Session Management service
 
- * @requires '$rootScope',
- * @requires '$location
- * @requires '$http
- * @requires '$q
- * @requires '$timeout
- * @requires '$window
- * @requires 'ToolsService
- * @requires 'ModalService
+ * @requires $rootScope
+ * @requires $location
+ * @requires $http
+ * @requires $q
+ * @requires $timeout
+ * @requires $window
+ * @requires ToolsService
+ * @requires ModalService
  *
  */
 application.service('SessionService',
@@ -21,23 +21,54 @@ application.service('SessionService',
 	var self = this;
     var timer;
 
+    /**
+     * @ngdoc property
+     * @name application.service:SessionService#isloggedIn
+     * @propertyOf application.service:SessionService
+     * @typeof boolean
+     * @description Boolean property representing the users logged in state.
+     */
     self.isLoggedIn = false;
 	self.loginException = {};
-
 	self.loginData = {};
+
+    /**
+     * @ngdoc function
+     * @name application.service:SessionService#clearLoginData
+     * @methodOf application.service:SessionService
+     * @description clears the login data object
+     */
 	self.clearLoginData = function(){
 		self.loginData = {};
 	}
 
+
 	self.sessionData = {};
+
+    /**
+     * @ngdoc function
+     * @name application.service:SessionService#clearSessionData
+     * @methodOf application.service:SessionService
+     * @description
+     * Clears the session data object.
+     */
 	self.clearSessionData = function(){
 		self.sessionData = {};
 	}
 
 	self.loginException = {};
+
+    /**
+     * @ngdoc function
+     * @name application.service:SessionService#clearLoginException
+     * @methodOf application.service:SessionService
+     * @description
+     * Clears the login exception
+     */
 	self.clearLoginException = function(){
 		self.loginException = {};
 	}
+
 
     $rootScope.user = typeof(USER) !== 'undefined'? JSON.parse(USER) : undefined;
 	$rootScope.logout = typeof(LOGOUT) !== 'undefined'? JSON.parse(LOGOUT) : undefined;

@@ -146,6 +146,7 @@ gulp.task('test-watch', function(done) {
  * that hve been updated with the ngdoc style comments.
  */
 var ngDocSource = [
+    '../web/application.js',
     '../web/components/**/*.js',
     '../web/directives/**/*.js',
     '../web/services/**/*.js'
