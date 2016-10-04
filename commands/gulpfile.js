@@ -6,6 +6,7 @@
 // -----------------------------------------------------------------------------
 
 var gulp = require('gulp'),
+    gulpDocs = require('gulp-ngdocs'),
     sass = require('gulp-sass'),
     svgSprite = require('gulp-svg-sprite'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -15,7 +16,10 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     runSequence = require('run-sequence'),
     uglify = require('gulp-uglify'),
-    Server = require('karma').Server;
+    Server = require('karma').Server,
+    pjson = require('./package.json'),
+    jshint = require('gulp-jshint'),
+    gulp   = require('gulp');
 
 
 // -----------------------------------------------------------------------------
@@ -31,10 +35,10 @@ var styleSource = '../web/assets/scss/**/*.scss',
 
 // Script paths & config
 var scriptSource = [
-      '../web/application.js', 
-      '../web/services/**/*.js', 
-      '../web/factories/**/*.js', 
-      '../web/components/**/*.js', 
+      '../web/application.js',
+      '../web/services/**/*.js',
+      '../web/factories/**/*.js',
+      '../web/components/**/*.js',
       '../web/directives/**/*.js',
 
       // exclude all tests
@@ -107,7 +111,7 @@ gulp.task('watch', function() {
     .on('change', function(event) {
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
     });
-  gulp.watch(scriptSource, ['scripts'])
+  gulp.watch(scriptSource, ['scripts', 'lint'])
     .on('change', function(event) {
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
     });
@@ -137,6 +141,71 @@ gulp.task('test-watch', function(done) {
     }, done).start();
 });
 
+/**
+ * This is a collection of files to
+ * be added to the ng-docs task.
+ * these should only be angular-related files
+ * that hve been updated with the ngdoc style comments.
+ */
+var ngDocSource = [
+    '../web/application.js',
+    '../web/components/**/*.js',
+    '../web/directives/**/*.js',
+    '../web/services/**/*.js'
+];
+
+/**
+ * Including supporting scripts here like
+ * jQuery
+ * third party js
+ * etc
+ */
+var dependentScripts = [
+    '../web/application.js',
+    '../web/components/example/ExampleController.js',
+    '../web/components/home/HomeController.js',
+    '../web/directives/example-directive.js',
+];
+
+/**
+ * ng-docs
+ * This task reads ng-doc formatted comments
+ * and automatically generates the appropriate
+ * pages and content for the included angular js files.
+ *
+ * Documentation Guide
+ * https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation
+ * https://github.com/idanush/ngdocs/wiki/API-Docs-Syntax
+ * http://www.podpea.co.uk/blog/starting-off-with-ngdocs/
+ */
+gulp.task('ngdocs', [], function () {
+  var options = {
+    scripts: dependentScripts,
+    html5Mode: false,
+    startPage: '/api',
+    title: pjson.description//,
+    // TODO: Brand and style this for a better experience
+    // image: "http://1h3ci31pyjih49uge04f79s6.wpengine.netdna-cdn.com/wp-content/themes/razrhq/assets/i/logo-razrhq.svg",
+    // imageLink: "http://razrhq.com/",
+    // titleLink: "http://razrhq.com/"
+  }
+  return gulp.src(ngDocSource)
+    .pipe(gulpDocs.process(options))
+    .pipe(gulp.dest('./docs'));
+});
+
+/**
+ * lint
+ * Lint and validate the included js files.
+ */
+gulp.task('lint', function() {
+  return gulp.src(scriptSource)
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+    // fails the task on linting failure.
+    //.pipe(jshint.reporter('fail'))
+});
+
 // -----------------------------------------------------------------------------
 // Default task
 // -----------------------------------------------------------------------------
@@ -144,15 +213,15 @@ gulp.task('test-watch', function(done) {
 /* $ /path/to/gulpfile/gulp */
 /* used for local dev */
 gulp.task('default', function(callback) {
-  runSequence('clean', ['sass', 'scripts', 'copy', 'watch'], callback);    
+  runSequence('clean', ['sass', 'scripts', 'copy', 'watch', 'lint', 'ngdocs'], callback);
 });
 
 /* $ /path/to/gulpfile/gulp build */
 /* used for one time builds (environments other than local dev) */
 gulp.task('build', function(callback) {
-  runSequence('clean', ['sass', 'scripts', 'copy'], callback);    
+  runSequence('clean', ['sass', 'scripts', 'copy'], callback);
 });
 
 gulp.task('build-test', function(callback) {
-  runSequence('clean', ['sass', 'scripts', 'copy'], 'test', callback); 
+  runSequence('clean', ['sass', 'scripts', 'copy'], 'test', callback);
 });
