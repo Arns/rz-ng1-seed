@@ -61,7 +61,7 @@ application.controller('ExampleController', ['$rootScope', 'ExampleService', fun
     self.alertMe = function() {
         alert(self.ctrlName + " says : You have been alerted.");
         self.message = "Alert has been shown.";
-    }
+    };
 
     /**
      * @ngdoc function
@@ -71,6 +71,6 @@ application.controller('ExampleController', ['$rootScope', 'ExampleService', fun
      */
     self.alertMeWithService = function(message) {
         ExampleService.alertMessage(message);
-    }
+    };
 
 }]);

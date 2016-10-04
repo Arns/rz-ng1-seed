@@ -17,7 +17,9 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     uglify = require('gulp-uglify'),
     Server = require('karma').Server,
-    pjson = require('./package.json');
+    pjson = require('./package.json'),
+    jshint = require('gulp-jshint'),
+    gulp   = require('gulp');
 
 
 // -----------------------------------------------------------------------------
@@ -109,7 +111,7 @@ gulp.task('watch', function() {
     .on('change', function(event) {
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
     });
-  gulp.watch(scriptSource, ['scripts'])
+  gulp.watch(scriptSource, ['scripts', 'lint'])
     .on('change', function(event) {
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
     });
@@ -192,6 +194,18 @@ gulp.task('ngdocs', [], function () {
     .pipe(gulp.dest('./docs'));
 });
 
+/**
+ * lint
+ * Lint and validate the included js files.
+ */
+gulp.task('lint', function() {
+  return gulp.src(scriptSource)
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+    // fails the task on linting failure.
+    //.pipe(jshint.reporter('fail'))
+});
+
 // -----------------------------------------------------------------------------
 // Default task
 // -----------------------------------------------------------------------------
@@ -199,7 +213,7 @@ gulp.task('ngdocs', [], function () {
 /* $ /path/to/gulpfile/gulp */
 /* used for local dev */
 gulp.task('default', function(callback) {
-  runSequence('clean', ['sass', 'scripts', 'copy', 'watch', 'ngdocs'], callback);
+  runSequence('clean', ['sass', 'scripts', 'copy', 'watch', 'lint', 'ngdocs'], callback);
 });
 
 /* $ /path/to/gulpfile/gulp build */
