@@ -213,7 +213,7 @@ gulp.task('lint', function() {
 /* $ /path/to/gulpfile/gulp */
 /* used for local dev */
 gulp.task('default', function(callback) {
-  runSequence('clean', ['sass', 'scripts', 'copy', 'watch', 'lint', 'ngdocs'], callback);
+  runSequence('clean', ['sass', 'scripts', 'copy', 'watch', 'lint'], callback);
 });
 
 /* $ /path/to/gulpfile/gulp build */
