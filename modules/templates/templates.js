@@ -1,0 +1,1 @@
+angular.module('RazrAlpha').run(['$templateCache', function($templateCache) {$templateCache.put('storefront-manager-master.html','<h2>Storefront Manager Master</h2>');}]);

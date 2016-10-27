@@ -16,7 +16,7 @@
 commands/node_modules
 
 # Dist
-dist
+razr-alpha
 
 # SASS related
 .sass-cache

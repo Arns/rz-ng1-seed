@@ -1,59 +1,59 @@
 <!doctype html>
-
-<html lang="en" ng-app="application">
+<html lang="en" xml:lang="en" ng-app="clientApp">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <base href="/index.html">
+  <title>Basic Html5 Module</title>
+  <meta name="description" content="Basic Html5 Module">
+  <meta name="author" content="Razr">
+  <link rel="stylesheet" href="razr-alpha/css/app.css">
 
-	<title>RZ Angular 1 Seed</title>
-
-	<!-- Application CSS - used for all of the public site -->
-	<link href="dist/css/master.min.css" media="all" rel="stylesheet" type="text/css"/>
-	<!-- Font Awesome for all of our icon needs :) -->
-	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-	<!-- PureCSS - oure defacto responsive css library and reset -->
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css" rel="stylesheet" type="text/css" />
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css" rel="stylesheet" type="text/css" />
-
-
-	<!-- JQuery CDN References -->
-	<script src="//code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-
-	<!-- Angular and associated library CDN References -->
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-
-	<!-- using ui router instead -->
-	<!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.min.js"></script>-->
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
-
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-animate.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-resource.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-messages.min.js"></script>
-
-
-	<script src="dist/js/master.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
 </head>
 
 <body>
-    <div example-directive></div>
-	<header>
-		<p><em>Header</em></p>
-		<h1><span class="fa fa-bolt"></span></h1>
-	</header>
+    <div class="main" ng-cloak>
+        <ui-view><ui-view>
+    </div>
 
-	<main>
-		<p><em>Main Content</em></p>
-		<h1><span class="fa fa-star"></span>Welcome</h1>
+    </div>
+    <footer>
 
-    	<div ui-view></div>
+    </footer>
+    <!-- include angular if you have not already -->
+    <script src="node_modules/angular/angular.min.js"></script>
+	<script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script>
+        /**
+         * Begin Client App
+         * Here is an example application that is importing
+         * the RazrAlpha app modules as dependency
+         * this will allow you to include razr functionality
+         * natively as code snippets, directives etc.
+         */
+        var YourAngularAppModule = angular.module('clientApp',['RazrAlpha', 'ui.router']);
+        YourAngularAppModule.controller('ClientController', [function() {
+            var self = this;
+        }]);
+        YourAngularAppModule.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
+            $stateProvider.
+                state('home', {
+                    url: '/',
+                    templateUrl: './partials/home.html'
+                }).
 
-	</main>
+            $urlRouterProvider.otherwise('/');
+            $locationProvider.html5Mode(true);
+        });
+        // End Client App
 
-	<footer>
-		<p><em>Footer</em></p>
-		<p>Thanks for visiting! :)</p>
-	</footer>
 
+    </script>
+
+    <!-- Including the seleced razr modules -->
+    <script src="razr-alpha/razr-alpha.js"></script>
+   
 </body>
 </html>

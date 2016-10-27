@@ -1,4 +1,3 @@
-#THis is the dev readme#
 # rz-ng1-seed 
 
 This is boiler plate for ng modules
