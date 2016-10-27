@@ -86,17 +86,17 @@ var distBase = './razr-alpha',
         },
         // ********************* Required *********************
         {
-            nameBase : 'razr-alpha-templates',
-            srcPath : ['modules/templates/templates.js'],
-            distPath : distBase,
-            partialsPath : 'modules/partials/*.html'
-        },
-        // ********************* Required *********************
-        {
             nameBase : "common",
             srcPath : ['modules/common/**/*.js'],
             distPath : moduleBasePath,
             partialsPath : 'modules/common/partials/**/*.html'
+        },
+        // ********************* Required *********************
+        {
+            nameBase : 'razr-alpha-templates',
+            srcPath : ['modules/templates/templates.js'],
+            distPath : distBase,
+            partialsPath : 'modules/partials/*.html'
         },
         // ********************* Optional *********************
         // Shopping Cart

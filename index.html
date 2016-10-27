@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xml:lang="en" ng-app="clientApp">
+<html lang="en" xml:lang="en">
 <head>
   <meta charset="utf-8">
   <base href="/index.html">
@@ -13,18 +13,15 @@
   <![endif]-->
 </head>
 
-<body>
+<body ng-app="clientApp">
     <div class="main" ng-cloak>
-        <ui-view><ui-view>
-    </div>
+    <ui-view><ui-view>
 
-    </div>
-    <footer>
-
-    </footer>
     <!-- include angular if you have not already -->
     <script src="node_modules/angular/angular.min.js"></script>
 	<script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+
     <script>
         /**
          * Begin Client App
@@ -41,8 +38,9 @@
             $stateProvider.
                 state('home', {
                     url: '/',
-                    templateUrl: './partials/home.html'
-                }).
+                    //templateUrl: './partials/home.html'
+                    template: '<h2>Home</h2>'
+                });
 
             $urlRouterProvider.otherwise('/');
             $locationProvider.html5Mode(true);

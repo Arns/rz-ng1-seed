@@ -3,7 +3,7 @@
  * @name RazrAlpha.controller:StorefrontManagerService
  * @description StorefrontManagerService
  */
-RazrAlpha.service('modules.storefrontManager.services.StorefrontManagerService', [ function(ShoppingCartService, $sce) {
+RazrAlpha.service('modules.storefrontManager.services.StorefrontManagerService', [ function() {
     var self = this;
     self.id = "StorefrontManagerService";
     return {
