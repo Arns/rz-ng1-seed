@@ -18,6 +18,7 @@ commands/node_modules
 # Dist
 razr-alpha
 docs
+reports
 
 # SASS related
 .sass-cache
