@@ -27,6 +27,7 @@ var gulp = require('gulp'),
     mergeStream = require('merge-stream'),
     server = require('gulp-server-livereload'),
     templateCache = require('gulp-angular-templatecache'),
+    runSequence = require('run-sequence'),
     Server = require('karma').Server;
 
 // --------- Paths anc collections used in the build process
@@ -109,7 +110,12 @@ var distBase = './razr-alpha',
     ],
     uglifyOptions = {
         mangle:true
-    };
+    },
+    distSourcePaths = [
+        distBase + "/razr-alpha-app/**/*.js",,
+        distBase + "/modules/**/*.js",
+        distBase + "/razr-alpha-templates/**/*.js"
+    ];
 
 
 // Nukes all generated source
@@ -126,13 +132,13 @@ gulp.task('clean', function () {
 });
 
 // Validates the sass syntax
-gulp.task('lint-sass', ['clean'], function () {
+gulp.task('lint-sass', function () {
   return gulp.src(sassSrc)
     .pipe(sassLint());
 });
 
 // Compiles the sass
-gulp.task('sass', ['lint-sass'], function () {
+gulp.task('sass', function () {
     return gulp.src(sassSrc)
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(autoprefixer(autoprefixerOptions))
@@ -140,7 +146,7 @@ gulp.task('sass', ['lint-sass'], function () {
 });
 
 // Creates a single template js
-gulp.task('markdown', ['sass'], function () {
+gulp.task('markdown', function () {
   return gulp.src('modules/**/partials/*.html')
     .pipe(templateCache({
         module : "RazrAlpha",
@@ -154,7 +160,7 @@ gulp.task('markdown', ['sass'], function () {
 });
 
 // Concat individual modules js into single js files
-gulp.task('scripts', ['markdown'], function() {
+gulp.task('scripts', function() {
     var length = modules.length;
     var tasks = [];
     for(var i = 0; i < length; i++) {
@@ -171,8 +177,9 @@ gulp.task('scripts', ['markdown'], function() {
 });
 
 // Concats and minifies the distribution css
-gulp.task('minify-dist', ['scripts'], function() {
-    return gulp.src([distBase + '/**/*.js'])
+// TODO: do this in some order to prevent explo-sion
+gulp.task('minify-dist', function() {
+    return gulp.src(distSourcePaths)
         .pipe(concat('razr-alpha.js'))
         .pipe(gulp.dest(distBase))
         .pipe(rename('razr-alpha.min.js'))
@@ -181,7 +188,7 @@ gulp.task('minify-dist', ['scripts'], function() {
 });
 
 // Concat individual modules js into single js files
-gulp.task('module-scripts', ['minify-dist'], function() {
+gulp.task('module-scripts', function() {
     var length = modules.length;
     var tasks = [];
     for(var i = 0; i < length; i++) {
@@ -199,7 +206,7 @@ gulp.task('module-scripts', ['minify-dist'], function() {
 });
 
 //Lints the css and checks for errors
-gulp.task('lint', ['module-scripts'], function() {
+gulp.task('lint', function() {
     //return true;
     return gulp.src(jsFiles)
         .pipe(jshint())
@@ -207,7 +214,7 @@ gulp.task('lint', ['module-scripts'], function() {
 });
 
 // Creates readme file from the package.json file.
-gulp.task('generate-read-me', ['lint'], function () {
+gulp.task('generate-read-me', function () {
   return gulp.src('*.md', {read: false})
     .pipe(shell([
       'readme package.json > PJSON-README.md'
@@ -215,7 +222,7 @@ gulp.task('generate-read-me', ['lint'], function () {
 });
 
 // Concats the two Readme files into one, 'README.md' file
-gulp.task('concat-read-me', ['generate-read-me'], function() {
+gulp.task('concat-read-me', function() {
     return gulp.src(readMeSrc)
         .pipe(concat("README.md"))
         .pipe(gulp.dest(""));
@@ -226,7 +233,7 @@ gulp.task('concat-read-me', ['generate-read-me'], function() {
  * and automatically generates the appropriate
  * pages and content for the included angular js files.
  */
-gulp.task('ng-docs', ['concat-read-me'], function () {
+gulp.task('ng-docs', function () {
   var options = {
     //scripts: dependentScripts,
     html5Mode: false,
@@ -297,7 +304,7 @@ gulp.task('watch', function() {
 gulp.task('webserver', function() {
   return gulp.src('')
     .pipe(server({
-      livereload: false,
+      livereload: true,
       directoryListing: false,
       open: true,
       fallback : './index.html'
@@ -305,10 +312,41 @@ gulp.task('webserver', function() {
 });
 
 // default task for automated or production builds
-gulp.task('default', ['ng-docs']);
+gulp.task('default', function() {
+    runSequence(
+        'clean', 
+        'lint-sass', 
+        'sass', 
+        'markdown', 
+        'scripts', 
+        'minify-dist', 
+        'module-scripts', 
+        'lint', 
+        'generate-read-me', 
+        'concat-read-me', 
+        'ng-docs',
+        'wcag'
+    );
+});
 
-gulp.task('dev', ['default']);
-
+//dev task that runs watchers and servers, and uses non-minified sources.
+gulp.task('dev', function() { 
+    runSequence(
+        'clean', 
+        'lint-sass', 
+        'sass', 
+        'markdown', 
+        'scripts', 
+        'minify-dist', 
+        'module-scripts', 
+        'lint', 
+        'generate-read-me', 
+        'concat-read-me', 
+        'ng-docs',
+        'watch', 
+        'webserver'
+    );
+});
 module.exports = gulp;
 
 

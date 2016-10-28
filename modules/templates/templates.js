@@ -1,1 +1,1 @@
-angular.module('RazrAlpha').run(['$templateCache', function($templateCache) {$templateCache.put('storefront-manager-master.html','<h2>Storefront Manager Master</h2>');}]);
+angular.module('RazrAlpha').run(['$templateCache', function($templateCache) {$templateCache.put('storefront-manager-master.html','<div ng-controller="StorefrontManagerController as storefrontManager">\n    <h2>{{storefrontManager.name}}</h2>\n    <ui-view><ui-view>\n</div>');}]);

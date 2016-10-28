@@ -5,7 +5,9 @@
  */
 RazrAlpha.controller('StorefrontManagerController', [
                       'modules.storefrontManager.services.StorefrontManagerService', 
-                      function(storefrontManagerService) {
+                      'modules.common.logger',
+                      function(storefrontManagerService, logger) {
     var self = this;
-    this.id = "StorefrontManagerController";
+    self.id = "StorefrontManagerController";
+    self.name = "Storefront Manager Master";
 }]);

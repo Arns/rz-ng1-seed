@@ -8,6 +8,11 @@
  */
 var RazrAlpha = angular.module('RazrAlpha',['ui.router']);
 
+//Note this could be configured to toggle on and off with a query param.
+RazrAlpha.logError = true;
+RazrAlpha.logDebug = true;
+RazrAlpha.logConsole = true;
+
 RazrAlpha.config(function($locationProvider, $stateProvider) {
     // $stateProvider
     //     .state("browse", {

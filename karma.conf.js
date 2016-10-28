@@ -24,7 +24,7 @@ module.exports = function(config) {
 
         'node_modules/angular-mocks/angular-mocks.js',
 
-        '../web/application.js',
+        //'../web/application.js',
         //'../../base-member-web/js/**/*.js',
         // '../web/services/**/*.js',
         // '../web/components/**/*.js',

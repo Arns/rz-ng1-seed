@@ -56,6 +56,7 @@ None
 - [karma-jasmine](https://github.com/karma-runner/karma-jasmine): A Karma plugin - adapter for Jasmine testing framework.
 - [merge-stream](https://github.com/grncdr/merge-stream): Create a stream that emits events from multiple other streams
 - [package-json-to-readme](https://github.com/zeke/package-json-to-readme): Generate a README.md from package.json contents
+- [run-sequence](https://github.com/OverZealous/run-sequence): Run a series of dependent gulp tasks in order
 
 
 ## License

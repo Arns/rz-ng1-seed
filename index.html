@@ -14,8 +14,7 @@
 </head>
 
 <body ng-app="clientApp">
-    <div class="main" ng-cloak>
-    <ui-view><ui-view>
+    <storefront-manager-master></storefront-manager-master>
 
     <!-- include angular if you have not already -->
     <script src="node_modules/angular/angular.min.js"></script>
@@ -38,8 +37,6 @@
             $stateProvider.
                 state('home', {
                     url: '/',
-                    //templateUrl: './partials/home.html'
-                    template: '<h2>Home</h2>'
                 });
 
             $urlRouterProvider.otherwise('/');
